@@ -37,8 +37,7 @@ class DatabaseConnector :
     query = "USE %s" %self.schema
     self.cursor.execute(query)
     print('>> DatabaseConnector - Use '+self.schema+' schema')
-
-  # placeholder
+    
   def createDataModel(self):
     self.createSchema()
     self.useSchema()
