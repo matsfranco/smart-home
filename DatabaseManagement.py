@@ -1,3 +1,8 @@
+###############################################################################
+#
+#
+#
+##############################################################################
 import mysql.connector
 from mysql.connector import errorcode
 
@@ -41,14 +46,13 @@ class DatabaseConnector :
   def createTables(self):
     query = "CREATE TABLE IF NOT EXISTS Bulb (BulbId INT NOT NULL AUTO_INCREMENT, IP VARCHAR(15), Name VARCHAR(100), Model VARCHAR(20), Effect VARCHAR(10), Duration INT, Auto_On BOOLEAN, Power_Mode INTEGER, CONSTRAINT Id PRIMARY KEY(BulbId))"
     self.cursor.execute(query)
-    query = "CREATE TABLE IF NOT EXISTS Bulb (BulbId INT NOT NULL AUTO_INCREMENT, IP VARCHAR(15), Name VARCHAR(100), Model VARCHAR(20), Effect VARCHAR(10), Duration INT, Auto_On BOOLEAN, Power_Mode INTEGER, CONSTRAINT Id PRIMARY KEY(BulbId))"
 
   def createDataModel(self):
     self.createSchema()
     self.useSchema()
     self.createTables()
 
-database = DatabaseConnector('localhost','smarthome','root','mateus12345')
-database.connect()
-database.createDataModel()
-database.disconnect()
+#database = DatabaseConnector('localhost','smarthome','root','mateus12345')
+#database.connect()
+#database.createDataModel()
+#database.disconnect()
