@@ -14,12 +14,16 @@ from yeelight import LightType
 import SmartBulbManager
 
 class DeviceManager:
-    def __init__(self,smartBulbs,sensorNodes):
-        self.smartBulbs = smartBulbs
-        self.sensorNodes = sensorNodes
+    def __init__(self):
+        print('built')
+        self.smartBulbs = []
+        self.sensorNodes = []
 
     def fetchBulbs(self):
-        print(str(discover_bulbs()))
+        for bulb in discover_bulbs():
+            ip = bulb.get('ip')
+            newBulb = SmartBulbManager.SmartBulb(ip)
+            print(str(newBulb))
 
     def fetchAvailableDevices(self):
         self.fetchBulbs()

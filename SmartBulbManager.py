@@ -17,8 +17,7 @@ OUT_OF_BOUNDS = 'OUT_OFF_BOUNDS ERROR'
 
 class SmartBulb:
     
-    def __init__(self,name,ip):
-        print('Bulb Class')
+    def __init__(self,ip):
         #self.bright = bright
         #self.color_mode =color_mode
         #self.ct = ct
@@ -31,11 +30,24 @@ class SmartBulb:
         #self.sat = sat
         #self.support = support
         #self.port = port
-        self.name = name
-        self.ip = ip
-        self.bulb = Bulb(ip)
-        print(str(self.getProperties()))
         
+        self.bulb = Bulb(ip)
+        capabilities = self.bulb.get_capabilities()
+        self.ip = ip
+        self.port = capabilities.get('port')
+        self.name = capabilities.get('name')
+        self.bright = capabilities.get('bright')
+        self.color_mode = capabilities.get('color_mode')
+        self.ct = capabilities.get('ct')
+        self.fw_ver = capabilities.get('fw_ver')
+        self.hue = capabilities.get('hue')
+        self.model = capabilities.get('model')
+        self.power = capabilities.get('power')
+        self.rgb = capabilities.get('rgb')
+        self.sat = capabilities.get('sat')
+        self.support = capabilities.get('support')
+        print('Name: '+self.name)
+        print('IP: '+self.ip)
 
     def turnOn(self):
         self.bulb.turn_on()

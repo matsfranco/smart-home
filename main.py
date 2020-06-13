@@ -11,7 +11,7 @@ database.createDataModel()
 
 # Discover available devices
 
-deviceManager = DeviceManager.DeviceManager('','')
+deviceManager = DeviceManager.DeviceManager()
 deviceManager.fetchAvailableDevices()
 
 
