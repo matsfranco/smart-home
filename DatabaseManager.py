@@ -20,6 +20,12 @@ schema = 'smarthome'
 user = 'root'
 password = 'mateus12345'
 
+# Default erro messages
+INSERT_SUCCESS = 'INSERTION SUCCEEDED!'
+INSERT_FAILED = 'INSERTION FAILED...'
+UPDATE_SUCCESS = 'UPDATE SUCCEEDED!'
+UPDATE_FAILED = 'UPDATE FAILED...!'
+
 class DatabaseConnector :
 
   def __init__(self):
@@ -93,22 +99,32 @@ class DatabaseConnector :
   def newBulb(self,newBulb):
     bulbIP = self.getBulb(newBulb.IP)
     if not bulbIP:
+      now = (datetime.now() + timedelta(hours=+3))
+      nowFormated = now.strftime('%Y-%m-%d %H:%M:%S')
       query = ("INSERT INTO Bulb (CreatedDate,LastModifiedDate,Name,Model,IP,Port,Bright,Color_Mode,CT,Fw_Ver,HUE,Power,RGB,Sat,Support,Effect,Duration,Auto_On,Power_Mode)\
               VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)")
-      args = (datetime.now(),datetime.now(),newBulb.Name,newBulb.Model,newBulb.IP,newBulb.Port,newBulb.Bright,newBulb.Color_Mode,\
+      args = (nowFormated,nowFormated,newBulb.Name,newBulb.Model,newBulb.IP,newBulb.Port,newBulb.Bright,newBulb.Color_Mode,\
       newBulb.CT,newBulb.Fw_Ver,newBulb.HUE,newBulb.Power,newBulb.RGB,newBulb.Sat,newBulb.Support,newBulb.Effect,newBulb.Duration,\
       newBulb.Auto_On,str(newBulb.Power_Mode))
       self.cursor.execute(query,args)
       print('>> DatabaseConnector - New Bulb Inserted. Name: '+newBulb.Name+' IP: '+newBulb.IP)
-      self.commit()
-      return 'INSERTION SUCCEEDED'
+      return INSERT_SUCCESS
     else:
-      print('>> DatabaseConnector - Bulb already inserted')
-      return 'INSERTION FAILED'
+      print('>> DatabaseConnector -Insertion failed. This Smart Bulb was already inserted. Updating the record.')
+      return(self.updateBulb(newBulb))
+      
 
-  def updateBulb(self,IP,Name,Model,Effect,Duration,Auto_On,Power_Mode):
-    #query = ("UPDATE Bulb  Name = '%s' WHERE IP = '%s'" % IP)
-    print('>> DatabaseConnector - Bulb updated')
+  def updateBulb(self,bulb):
+    
+    now = (datetime.now() + timedelta(hours=+3))
+    nowFormated = now.strftime('%Y-%m-%d %H:%M:%S')
+    query = ("UPDATE Bulb SET LastModifiedDate = %s, Name = %s, Model = %s, Port = %s, Bright = %s,\
+              Color_Mode = %s, CT = %s, Fw_Ver = %s, HUE = %s, Power = %s, RGB = %s,\
+              Sat = %s, Support = %s, Effect = %s, Duration = %s, Auto_On = %s, Power_Mode = %s WHERE IP = %s")
+    args = (nowFormated,bulb.Name,bulb.Model,bulb.Port,bulb.Bright,bulb.Color_Mode,bulb.CT,bulb.Fw_Ver,bulb.HUE,bulb.Power,bulb.RGB,bulb.Sat,bulb.Support,bulb.Effect,bulb.Duration,bulb.Auto_On,str(bulb.Power_Mode),bulb.IP)
+    self.cursor.execute(query,args)
+    return UPDATE_SUCCESS
+
 
 #database = DatabaseConnector('localhost','smarthome','root','mateus12345')
 #database.connect()

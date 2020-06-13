@@ -32,6 +32,8 @@ class DeviceManager:
         self.database.useSchema()
         for bulb in self.smartBulbs:
             print(self.database.newBulb(bulb))
+        self.database.commit()
+        self.database.disconnect()
            
 
     def fetchAvailableDevices(self):
