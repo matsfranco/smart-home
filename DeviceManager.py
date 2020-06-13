@@ -12,10 +12,12 @@ from yeelight import discover_bulbs
 from yeelight import Bulb
 from yeelight import LightType
 import SmartBulbManager
+import DatabaseManager
 
 class DeviceManager:
     def __init__(self):
         print('built')
+        self.database = DatabaseManager.DatabaseConnector()
         self.smartBulbs = []
         self.sensorNodes = []
 

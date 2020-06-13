@@ -15,9 +15,14 @@ from datetime import date,datetime,timedelta
 import mysql.connector
 from mysql.connector import errorcode
 
+host = 'localhost'
+schema = 'smarthome'
+user = 'root'
+password = 'mateus12345'
+
 class DatabaseConnector :
 
-  def __init__(self,host,schema,user,password):
+  def __init__(self):
     self.host = host
     self.schema = schema
     self.user = user 

@@ -5,7 +5,7 @@ import SmartBulbManager
 import DeviceManager
 # Init Database
 
-database = DatabaseManager.DatabaseConnector('localhost','smarthome','root','mateus12345')
+database = DatabaseManager.DatabaseConnector()
 database.connect()
 database.createDataModel()
 
