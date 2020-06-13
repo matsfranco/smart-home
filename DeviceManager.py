@@ -25,7 +25,17 @@ class DeviceManager:
         for bulb in discover_bulbs():
             ip = bulb.get('ip')
             newBulb = SmartBulbManager.SmartBulb(ip)
-            print(str(newBulb))
+            self.smartBulbs.append(newBulb)
+
+    def upsertBulbs(self):
+        self.database.connect()
+        self.database.useSchema()
+        for bulb in self.smartBulbs:
+            print(self.database.newBulb(bulb))
+           
 
     def fetchAvailableDevices(self):
         self.fetchBulbs()
+        self.upsertBulbs()
+
+    
