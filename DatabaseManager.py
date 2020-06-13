@@ -66,6 +66,10 @@ class DatabaseConnector :
       print('>> DatabaseConnector - Bulb already inserted')
       return 'INSERTION FAILED'
 
+  def updateBulb(self,IP,Name,Model,Effect,Duration,Auto_On,Power_Mode):
+    #query = ("UPDATE Bulb SET Name = '%s' WHERE IP = '%s'" % IP)
+    print('>> DatabaseConnector - Bulb updated')
+
 #database = DatabaseConnector('localhost','smarthome','root','mateus12345')
 #database.connect()
 #database.createDataModel()
