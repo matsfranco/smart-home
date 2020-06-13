@@ -1,8 +1,15 @@
-###############################################################################
-# Name: DatabaseManager
-#
-#
-##############################################################################
+############################################################################
+# Name: DatabaseConnector Class
+# Description: 
+#   Implements all database initial configuration and query operations for
+#   for specific use cases
+# Module Dependencies: 
+#   - mysql.connector
+#   - time
+#   - datetime
+# Created by: Mateus Franco @ 13/06/2020
+# Change Log:
+############################################################################
 import time
 from datetime import date,datetime,timedelta
 import mysql.connector

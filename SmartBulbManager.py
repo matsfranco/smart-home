@@ -3,7 +3,8 @@
 # Description: 
 #   Class to implement Bulb and its methods to control RGB/HSV Color,
 #   Temperature, Status and other smart bulb parameters
-# Dependency: YeeLight Library
+# Module Dependencies: 
+#   - YeeLight Library
 # Created by: Mateus Franco @ 13/06/2020
 # Change Log:
 ############################################################################
