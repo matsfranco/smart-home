@@ -3,6 +3,8 @@
 #
 #
 ##############################################################################
+import time
+from datetime import date,datetime,timedelta
 import mysql.connector
 from mysql.connector import errorcode
 
@@ -25,13 +27,6 @@ class DatabaseConnector :
     self.cursor.close()
     self.mydb.close()
     print('>> DatabaseConnector - Connection Closed')
-
-  # placeholder
-  def newObject(self,name,description) :
-    self.mydb.commit()
-    self.cursor.close()
-    self.mydb.close()
-    print('>> DatabaseConnector - Connection Closed')
  
   def createSchema(self):
     query = "CREATE SCHEMA IF NOT EXISTS %s" %self.schema
@@ -44,13 +39,32 @@ class DatabaseConnector :
     print('>> DatabaseConnector - Use '+self.schema+' schema')
 
   def createTables(self):
-    query = "CREATE TABLE IF NOT EXISTS Bulb (BulbId INT NOT NULL AUTO_INCREMENT, IP VARCHAR(15), Name VARCHAR(100), Model VARCHAR(20), Effect VARCHAR(10), Duration INT, Auto_On BOOLEAN, Power_Mode INTEGER, CONSTRAINT Id PRIMARY KEY(BulbId))"
+    query = "CREATE TABLE IF NOT EXISTS Bulb (CreatedDate DATETIME, LastModifiedDate DATETIME , Name VARCHAR(100), IP VARCHAR(15) NOT NULL, Model VARCHAR(20), Effect VARCHAR(10), Duration INT, Auto_On BOOLEAN, Power_Mode INTEGER, CONSTRAINT Id PRIMARY KEY(IP))"
     self.cursor.execute(query)
 
   def createDataModel(self):
     self.createSchema()
     self.useSchema()
     self.createTables()
+
+  def getBulb(self,IP):
+    query = ("SELECT IP FROM Bulb WHERE IP = '%s'" % IP)
+    self.cursor.execute(query)
+    bulbIP = list(self.cursor.fetchall())
+    return bulbIP
+
+  def newBulb(self,IP,Name,Model,Effect,Duration,Auto_On,Power_Mode) :
+    bulbIP = self.getBulb(IP)
+    if not bulbIP:
+      query = "INSERT INTO Bulb(CreatedDate,LastModifiedDate,IP,Name,Model,Effect,Duration,Auto_On,Power_Mode) VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s)"
+      args = (datetime.now(),datetime.now(),IP,Name,Model,Effect,Duration,Auto_On,Power_Mode)
+      self.cursor.execute(query,args)
+      self.mydb.commit()
+      print('>> DatabaseConnector - New Bulb Inserted. Name: '+Name+' IP: '+IP)
+      return 'INSERTION SUCCEEDED'
+    else:
+      print('>> DatabaseConnector - Bulb already inserted')
+      return 'INSERTION FAILED'
 
 #database = DatabaseConnector('localhost','smarthome','root','mateus12345')
 #database.connect()
